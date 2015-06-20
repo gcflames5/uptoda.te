@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  major: 1
+  mid: 1
+  minor: 1
+
+two:
+  major: 1
+  mid: 1
+  minor: 1
