@@ -1,10 +1,11 @@
 class Version
   include Mongoid::Document
   include Mongoid::Paperclip
-  validate :model_year_valid_for_trim
-
 
   belongs_to :project
+  has_many :downloads
+
+  validate :ensure_unique
 
   has_mongoid_attached_file :file
     do_not_validate_attachment_file_type :file
@@ -25,11 +26,20 @@ class Version
     return false if (major != -1 && self.major != major)
     return false if (mid != -1 && self.mid != mid)
     return false if (minor != -1 && self.minor != minor)
-    true
+    return true
   end
 
   def sum
     major*10000 + mid*100 + minor
+  end
+
+  #Validation
+  def ensure_unique
+    project.versions.each do |version|
+      break if self == version
+      errors.add(:minor, "Version must be unique!") if major == version.major && mid == version.mid && minor == version.minor
+      break
+    end
   end
 
 end
