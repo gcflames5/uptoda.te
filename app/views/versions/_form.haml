@@ -1,0 +1,35 @@
+= form_for([@project, @version]) do |f|
+  - if @version.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@version.errors.count, "error")
+        prohibited this version from being saved:
+      %ul
+        - @version.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :major
+    %br
+      = f.number_field :major
+  .field
+    = f.label :mid
+    %br
+      = f.number_field :mid
+  .field
+    = f.label :minor
+    %br
+      = f.number_field :minor
+  .field
+    = f.label :stable
+    %br
+      = f.check_box :stable
+  .field
+    = f.label :rec
+    %br
+      = f.check_box :rec
+  .field
+    = f.label :file
+    %br
+      = f.file_field :file
+  .actions
+    = f.submit

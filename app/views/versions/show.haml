@@ -1,0 +1,22 @@
+%p#notice= notice
+%p
+  %strong Major:
+  = @version.major
+%p
+  %strong Mid:
+  = @version.mid
+%p
+  %strong Minor:
+  = @version.minor
+%p
+  %strong Stable:
+  = @version.stable
+%p
+  %strong Recommended:
+  = @version.rec
+%p
+  %strong File:
+  = @version.file.url
+= link_to 'Edit', edit_project_version_path(@project, @version)
+|
+\#{link_to 'Back', project_versions_path}

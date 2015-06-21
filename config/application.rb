@@ -31,5 +31,9 @@ module UptodaTe
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     # config.active_record.raise_in_transactional_callbacks = true
+
+    Paperclip::Attachment.default_options[:path] = ":rails_root/restricted/system/:rails_env/:class/:attachment/:id_partition/:filename"
+    Paperclip::Attachment.default_options[:url] = ":rails_root/restricted/system/:rails_env/:class/:attachment/:id_partition/:filename"
+
   end
 end
