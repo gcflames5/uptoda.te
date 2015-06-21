@@ -1,6 +1,8 @@
 class Version
   include Mongoid::Document
   include Mongoid::Paperclip
+  validate :model_year_valid_for_trim
+
 
   belongs_to :project
 

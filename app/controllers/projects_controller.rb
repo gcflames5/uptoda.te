@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :check, :download]
 
   # GET /projects
   # GET /projects.json
@@ -58,6 +58,53 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  # GET /projects/1/check.json
+  def check
+    major = params[:major].to_i
+    mid = params[:mid].to_i
+    minor = params[:minor].to_i
+
+    version = @project.grab_version(major, mid, minor, params[:type].to_sym)
+    if version.nil?
+      render json: {
+        error: "Requested version not found.",
+        project_name: @project.name,
+        requested_version: [major, mid, minor],
+        request_type: params[:type].to_sym
+        }, status: :ok
+    else
+      render json: {
+        update_available: !version.matches?(major, mid, minor),
+        project_name: @project.name,
+        requested_version: [major, mid, minor],
+        new_version: [version.major, version.mid, version.minor],
+        request_type: params[:type].to_sym
+        }, status: :ok
+    end
+  end
+
+  # GET /projects/1/download
+  def download
+    major = params[:major].to_i
+    mid = params[:mid].to_i
+    minor = params[:minor].to_i
+
+    version = @project.grab_version(major, mid, minor, params[:type].to_sym)
+    if version.nil?
+      render json: {
+        error: "Requested version not found.",
+        project_name: @project.name,
+        requested_version: [major, mid, minor],
+        request_type: params[:type].to_sym
+        }, status: :ok
+    else
+      send_file(version.file.path,
+        :filename      =>  @project.name.gsub(" ", "") + "-" + version.major.to_s + "." + version.mid.to_s + "." + version.minor.to_s,
+        :disposition  =>  'attachment'
+        )
     end
   end
 

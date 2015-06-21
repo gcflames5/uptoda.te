@@ -4,6 +4,9 @@ Rails.application.routes.draw do
     resources :versions
   end
 
+  get 'projects/:id/check' => 'projects#check'
+  get 'projects/:id/download' => 'projects#download'
+
   devise_for :users
 
   root to: "welcome#index"

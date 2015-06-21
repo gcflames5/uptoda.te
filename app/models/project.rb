@@ -12,14 +12,14 @@ class Project
     versions.each do |version|
       possibilities << version if version.matches?(major, mid, minor)
     end
-    case switch_type
+    case search_type
     when :rec
       version = get_rec(possibilities)
       return version.nil? ? latest(possibilities) : version
     when :stable
       version = get_stable(possibilities)
       return version.nil? ? latest(possibilities) : version
-    when :abs
+    else
       return latest(possibilities)
     end
     return nil #could not find suitable version
