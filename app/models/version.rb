@@ -8,6 +8,7 @@ class Version
   validate :ensure_unique
 
   has_mongoid_attached_file :file
+    validates_presence_of :file
     do_not_validate_attachment_file_type :file
     validates_attachment_size :file, :less_than => 5.megabytes
 
@@ -41,5 +42,12 @@ class Version
       break
     end
   end
+
+  #Sorting
+  def <=>(other)
+    self.sum <=> other.sum
+  end
+
+  include Comparable
 
 end

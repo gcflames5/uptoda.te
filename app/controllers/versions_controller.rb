@@ -5,7 +5,7 @@ class VersionsController < ApplicationController
   # GET /versions
   # GET /versions.json
   def index
-    @versions = @project.versions
+    @versions = @project.versions.sort!
   end
 
   # GET /versions/1

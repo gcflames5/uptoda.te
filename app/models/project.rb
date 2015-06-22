@@ -7,11 +7,16 @@ class Project
   field :name, type: String
   field :desc, type: String
 
-  def grab_version(major, mid, minor, search_type)
+  def get_matches(major, mid, minor)
     possibilities = Array.new
     versions.each do |version|
       possibilities << version if version.matches?(major, mid, minor)
     end
+    return possibilities
+  end
+
+  def grab_version(major, mid, minor, search_type)
+    possibilities = get_matches(major, mid, minor)
     case search_type
     when :rec
       version = get_rec(possibilities)
