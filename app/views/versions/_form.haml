@@ -7,29 +7,40 @@
       %ul
         - @version.errors.full_messages.each do |message|
           %li= message
-  .field
-    = f.label :major
-    %br
-      = f.number_field :major
-  .field
-    = f.label :mid
-    %br
-      = f.number_field :mid
-  .field
-    = f.label :minor
-    %br
-      = f.number_field :minor
-  .field
-    = f.label :stable
-    %br
-      = f.check_box :stable
-  .field
-    = f.label :rec
-    %br
-      = f.check_box :rec
-  .field
-    = f.label :file
-    %br
-      = f.file_field :file
-  .actions
-    = f.submit
+  .ui.grid
+    .eight.wide.column
+      .ui.form
+        %h4 Version Number
+        .fields.inline
+          .field
+            - latest = @project.versions.last
+            = f.number_field :major, style: "width: 5em", value: latest.major
+          .field
+            = f.number_field :mid, style: "width: 5em", value: latest.mid
+          .field
+            = f.number_field :minor, style: "width: 5em", value: latest.minor + 1
+        %h4 Version Stability
+        .fields
+          .ui.toggle.checkbox.field
+            = f.check_box :stable
+            %label
+              Stable Build
+          .ui.toggle.checkbox.field
+            = f.check_box :rec
+            %label
+              Recommended Build
+        .fields
+          .field
+            %label File
+            = f.file_field :file
+      %br
+      .actions
+        =f.submit "Save", class:"ui primary button"
+
+:javascript
+  function ready(){
+    $('.ui.checkbox').checkbox();
+  }
+
+  $(document).ready(ready);
+  $(document).on('page:load', ready);

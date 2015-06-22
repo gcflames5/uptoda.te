@@ -1,18 +1,76 @@
 %p#notice= notice
-%h1 Listing Projects
-%table
+.ui.grid
+  .eight.wide.column
+    %h1 Listing Projects
+  .eight.wide.right.aligned.column
+    .ui.primary.button{onclick: "$('#new-project').modal('show');"}
+      New Project
+%table.ui.celled.striped.table
   %thead
     %tr
       %th Name
-      %th Desc
+      %th Versions
+      %th Latest
       %th{:colspan => "3"}
   %tbody
     - @projects.each do |project|
       %tr
-        %td= project.name
-        %td= project.desc
-        %td= link_to 'Show', project
-        %td= link_to 'Edit', edit_project_path(project)
-        %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
-%br
-  = link_to 'New Project', new_project_path
+        %td
+          = project.name
+          .ui.label.right
+            =project.downloads
+            Downloads
+        %td
+          =project.versions.count
+          Versions
+        %td
+          =project.versions.last.to_s
+        %td= link_to 'See Versions', project_versions_path(project)
+        %td= link_to 'Edit', "#", onclick: "$('#edit-project-#{project.id}').modal('show');"
+        %td= link_to 'Delete', project, method: :delete, data: { confirm: 'Are you really sure? This will delete your project and all it\'s files.' }
+        /Modals
+        .ui.modal{ id: "edit-project-#{project.id}"}
+          =form_for(project) do |f|
+            %i.close.icon
+            .header
+              Edit Project
+            .content
+              .fields.inline
+                .label
+                  Project Name
+                .field
+                  =f.text_field :name
+                .label
+                  Project Description
+                .fields
+                  =f.text_area :desc
+              .actions
+                .ui.button Cancel
+                =f.submit "OK", class: "ui button"
+
+.ui.modal{ id: "new-project"}
+  %i.close.icon
+  .header
+    New Project
+  =form_for(current_user.projects.build) do |f|
+    .content
+      .fields
+        .label
+          Project Name
+        .field
+          =f.text_field :name
+        .label
+          Project Description
+        .fields
+          =f.text_area :desc
+      .actions
+        .ui.button Cancel
+        =f.submit "OK", class: "ui button"
+
+:javascript
+  function ready(){
+    $('.ui.modal').modal();
+  }
+
+  $(document).ready(ready);
+  $(document).on('page:load', ready);

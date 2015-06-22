@@ -6,6 +6,7 @@
     %a.item{:href => ""} Contact us
     .right.menu
       - unless current_user.nil?
+        %a.item{:href => projects_path} My Projects
         .ui.dropdown.item
           =current_user.email
           %i.dropdown.icon

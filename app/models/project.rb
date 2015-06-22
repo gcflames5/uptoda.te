@@ -30,6 +30,14 @@ class Project
     return nil #could not find suitable version
   end
 
+  def downloads
+    total = 0
+    versions.each do |version|
+      total += version.downloads.count
+    end
+    total
+  end
+
   private
     def get_rec(versions)
       rec_possibilities = Array.new

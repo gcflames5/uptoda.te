@@ -1,28 +1,37 @@
 %p#notice= notice
-%h1
-  Listing All Versions For
-  =@project.name
+.ui.grid
+  .eight.wide.column
+    %h1
+      Listing All Versions For
+      =@project.name
+  .eight.wide.right.aligned.column
+    %a.ui.primary.button{ href: new_project_version_path(@project) }
+      New Version
 %table.ui.celled.striped.table
   %tbody
     - @versions.each do |version|
       =form_for([@project, version]) do |f|
-        %tr
+        %tr{class: "on-hover", tag: "edit-tag-" + version.id.to_s}
           %td
             .ui.grid{ onclick: "toggle('#{version.id}')"}
               .four.wide.column
                 %h2
                   =version.to_s
-              .eight.wide.column
+              .six.wide.column
                 - if version.stable
                   .ui.label.blue
                     Stable
                 - if version.rec
                   .ui.label.green
                     Recommended
-              .four.wide.column
+              .three.wide.column
                 .ui.label.right
                   =version.downloads.count
                   Downloads
+              .three.wide.right.aligned.column{ id: "edit-tag-" + version.id.to_s, style: "display:none; color:black"}
+                .ui.label
+                  =semantic_icon(:write)
+                  =link_to "Edit", edit_project_version_path(@project, version)
             .content{ id: "content-#{version.id}", style: "display:none" }
               .ui.divider
               .ui.grid
@@ -46,7 +55,7 @@
                         = f.check_box :rec
                         %label
                           Recommended Build
-                  %input.ui.primary.button{ value: "Save", type: "submit" }
+                  =f.submit "Save", class:"ui primary button"
                 .eight.wide.column
                   %h3 Recent Downloads
                   %table.ui.table
@@ -64,9 +73,7 @@
                       %h5 This version has not yet been downloaded.
         /%td= link_to 'Show', project_version_path(@project, version)
         /%td= link_to 'Edit', edit_project_version_path(@project, version)
-        /%td= link_to 'Destroy', [@project, version], method: :delete, data: { confirm: 'Are you sure?' }
-%br
-  = link_to 'New Version', new_project_version_path
+        /%td= link_to 'Destroy', [@project, version], method: :delete, data: { confirm: 'Are you sure?' }h
 
 
 :javascript
@@ -74,7 +81,13 @@
     $('.ui.accordion').accordion();
     $('.ui.checkbox').checkbox();
 
-    $('.ui.form')
+    $('.on-hover').mouseenter(function(){
+      $('#' + $(this).attr('tag')).show();
+    });
+
+    $('.on-hover').mouseleave(function(){
+      $('#' + $(this).attr('tag')).hide();
+    });
   }
 
   function toggle(id){

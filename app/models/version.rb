@@ -37,9 +37,11 @@ class Version
   #Validation
   def ensure_unique
     project.versions.each do |version|
-      break if self == version
-      errors.add(:minor, "Version must be unique!") if major == version.major && mid == version.mid && minor == version.minor
-      break
+      next if self.id == version.id
+      if major == version.major && mid == version.mid && minor == version.minor
+        errors.add(:minor, "Version must be unique!")
+        break
+      end
     end
   end
 
