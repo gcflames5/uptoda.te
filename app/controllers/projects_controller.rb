@@ -102,7 +102,7 @@ class ProjectsController < ApplicationController
         }, status: :ok
     else
       send_file(version.file.path,
-        :filename      =>  @project.name.gsub(" ", "") + "-" + version.major.to_s + "." + version.mid.to_s + "." + version.minor.to_s,
+        :filename      =>  @project.name.gsub(" ", "").gsub("/[^0-9A-Za-z.\-]/") + "_" + version.major.to_s + "." + version.mid.to_s + "." + version.minor.to_s,
         :disposition  =>  'attachment'
         )
       version.downloads << Download.create(ip: request.remote_ip)
