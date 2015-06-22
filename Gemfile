@@ -22,6 +22,8 @@ gem 'devise'
 gem 'haml'
 # use mongoid paperclip for attachment management
 gem "mongoid-paperclip", :require => "mongoid_paperclip"
+# use semantic for styling
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

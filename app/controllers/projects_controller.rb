@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    @projects = current_user.projects
   end
 
   # GET /projects/1
@@ -14,7 +14,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects/new
   def new
-    @project = Project.new
+    @project = current_user.projects.build
   end
 
   # GET /projects/1/edit
@@ -24,7 +24,7 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @project = Project.new(project_params)
+    @project = current_user.projects.build(project_params)
 
     respond_to do |format|
       if @project.save
@@ -105,6 +105,7 @@ class ProjectsController < ApplicationController
         :filename      =>  @project.name.gsub(" ", "") + "-" + version.major.to_s + "." + version.mid.to_s + "." + version.minor.to_s,
         :disposition  =>  'attachment'
         )
+      version.downloads << Download.create(ip: request.remote_ip)
     end
   end
 

@@ -1,0 +1,27 @@
+.computer.tablet.only.row
+  .ui.inverted.menu.navbar
+    %a.brand.item{:href => ""} Uptoda.te
+    %a.active.item{:href => ""} API
+    %a.item{:href => ""} About
+    %a.item{:href => ""} Contact us
+    .right.menu
+      - unless current_user.nil?
+        .ui.dropdown.item
+          =current_user.email
+          %i.dropdown.icon
+          .menu
+            .item
+              =link_to "Edit account", edit_user_registration_path, style: "color:black"
+            .ui.divider
+            .item
+              =link_to('Logout', destroy_user_session_path, :method => :delete, style: "color:black")
+      - else
+        .ui.dropdown.item
+          = semantic_icon(:users)
+          %i.dropdown.icon
+          .menu
+            .item
+              =link_to "Sign in", new_user_session_path, style: "color:black"
+            .ui.divider
+            .item
+              =link_to "Sign up", new_user_registration_path, style: "color:black"

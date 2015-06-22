@@ -8,7 +8,23 @@
 </head>
 <body>
 
-<%= yield %>
+<%= flash[:error] %>
+<%= flash[:notice] %>
+<%= flash[:alert] %>
+
+<div class="ui page grid">
+  <%= render "shared/navbar" %>
+  <div class="row">
+    <div class="column padding-reset">
+      <%= yield %>
+    </div>
+  </div>
+</div>
 
 </body>
+
+<script type="text/javascript">
+  $('.ui.dropdown').dropdown()
+</script>
+
 </html>

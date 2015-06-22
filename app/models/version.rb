@@ -48,6 +48,10 @@ class Version
     self.sum <=> other.sum
   end
 
+  def to_s
+    major.to_s + "." + mid.to_s + "." + minor.to_s
+  end
+
   include Comparable
 
 end

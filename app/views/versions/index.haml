@@ -1,20 +1,90 @@
 %p#notice= notice
-%h1 Listing Versions
-%table
-  %thead
-    %tr
-      %th Major
-      %th Mid
-      %th Minor
-      %th{:colspan => "3"}
+%h1
+  Listing All Versions For
+  =@project.name
+%table.ui.celled.striped.table
   %tbody
     - @versions.each do |version|
-      %tr
-        %td= version.major
-        %td= version.mid
-        %td= version.minor
-        %td= link_to 'Show', project_version_path(@project, version)
-        %td= link_to 'Edit', edit_project_version_path(@project, version)
-        %td= link_to 'Destroy', [@project, version], method: :delete, data: { confirm: 'Are you sure?' }
+      =form_for([@project, version]) do |f|
+        %tr
+          %td
+            .ui.grid{ onclick: "toggle('#{version.id}')"}
+              .four.wide.column
+                %h2
+                  =version.to_s
+              .eight.wide.column
+                - if version.stable
+                  .ui.label.blue
+                    Stable
+                - if version.rec
+                  .ui.label.green
+                    Recommended
+              .four.wide.column
+                .ui.label.right
+                  =version.downloads.count
+                  Downloads
+            .content{ id: "content-#{version.id}", style: "display:none" }
+              .ui.divider
+              .ui.grid
+                .eight.wide.column
+                  .ui.form
+                    %h4 Version Number
+                    .fields.inline
+                      .field
+                        = f.number_field :major, style: "width: 5em"
+                      .field
+                        = f.number_field :mid, style: "width: 5em"
+                      .field
+                        = f.number_field :minor, style: "width: 5em"
+                    %h4 Version Stability
+                    .fields
+                      .ui.toggle.checkbox.field
+                        = f.check_box :stable
+                        %label
+                          Stable Build
+                      .ui.toggle.checkbox.field
+                        = f.check_box :rec
+                        %label
+                          Recommended Build
+                  %input.ui.primary.button{ value: "Save", type: "submit" }
+                .eight.wide.column
+                  %h3 Recent Downloads
+                  %table.ui.table
+                    - if version.downloads.count > 0
+                      %thead
+                        %tr
+                          %th IP Address
+                          %th Date and Time
+                      %tbody
+                        - version.downloads.each do |download|
+                          %tr
+                            %td=download.ip
+                            %td=download.created_at.localtime.strftime("%d/%m/%y %H:%M:%S")
+                    - else
+                      %h5 This version has not yet been downloaded.
+        /%td= link_to 'Show', project_version_path(@project, version)
+        /%td= link_to 'Edit', edit_project_version_path(@project, version)
+        /%td= link_to 'Destroy', [@project, version], method: :delete, data: { confirm: 'Are you sure?' }
 %br
   = link_to 'New Version', new_project_version_path
+
+
+:javascript
+  function ready(){
+    $('.ui.accordion').accordion();
+    $('.ui.checkbox').checkbox();
+
+    $('.ui.form')
+  }
+
+  function toggle(id){
+    var content = $("#content-" + id);
+    if (content.is(":visible")){
+      content.slideUp();
+    }else{
+      content.slideDown();
+    }
+  }
+
+  $(document).ready(ready);
+  $(document).on('page:load', ready);
