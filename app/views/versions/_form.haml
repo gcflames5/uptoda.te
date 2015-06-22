@@ -13,12 +13,12 @@
         %h4 Version Number
         .fields.inline
           .field
-            - latest = @project.versions.last
+            - latest = @version.major.nil? ? @project.versions.last : @version
             = f.number_field :major, style: "width: 5em", value: latest.major
           .field
             = f.number_field :mid, style: "width: 5em", value: latest.mid
           .field
-            = f.number_field :minor, style: "width: 5em", value: latest.minor + 1
+            = f.number_field :minor, style: "width: 5em", value: latest.minor + (@version.major.nil? ? 1 : 0)
         %h4 Version Stability
         .fields
           .ui.toggle.checkbox.field
@@ -35,7 +35,10 @@
             = f.file_field :file
       %br
       .actions
+        %a.ui.button.primary{href: project_versions_path(@project) }
+          Cancel
         =f.submit "Save", class:"ui primary button"
+
 
 :javascript
   function ready(){

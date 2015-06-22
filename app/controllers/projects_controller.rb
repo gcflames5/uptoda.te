@@ -77,10 +77,9 @@ class ProjectsController < ApplicationController
         }, status: :ok
     else
       render json: {
-        update_available: !version.matches?(major, mid, minor),
         project_name: @project.name,
         requested_version: [major, mid, minor],
-        new_version: [version.major, version.mid, version.minor],
+        newest_version: [version.major, version.mid, version.minor],
         request_type: params[:type].to_sym
         }, status: :ok
     end

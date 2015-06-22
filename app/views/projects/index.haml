@@ -1,4 +1,3 @@
-%p#notice= notice
 .ui.grid
   .eight.wide.column
     %h1 Listing Projects
@@ -16,10 +15,13 @@
     - @projects.each do |project|
       %tr
         %td
-          = project.name
-          .ui.label.right
-            =project.downloads
-            Downloads
+          .ui.grid
+            .eight.wide.column
+              = project.name
+            .eight.wide.right.aligned.column
+              .ui.label
+                =project.downloads
+                Downloads
         %td
           =project.versions.count
           Versions

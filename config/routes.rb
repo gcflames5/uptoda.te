@@ -11,6 +11,10 @@ Rails.application.routes.draw do
 
   root to: "welcome#index"
 
+  get 'about/api' => 'welcome#api', as: :api
+  get 'about' => 'welcome#about', as: :about
+  get 'about/us' => 'welcome#contact', as: :contact
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

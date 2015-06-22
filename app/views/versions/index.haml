@@ -1,10 +1,11 @@
-%p#notice= notice
 .ui.grid
   .eight.wide.column
     %h1
       Listing All Versions For
       =@project.name
   .eight.wide.right.aligned.column
+    %a#api-example.ui.button{"data-title" => "API Example", "data-content" => "/projects/#{@project.id.to_s}/[action]?major=-1&mid=-1&minor=-1&type=abs" }
+      API
     %a.ui.primary.button{ href: new_project_version_path(@project) }
       New Version
 %table.ui.celled.striped.table
@@ -29,9 +30,9 @@
                   =version.downloads.count
                   Downloads
               .three.wide.right.aligned.column{ id: "edit-tag-" + version.id.to_s, style: "display:none; color:black"}
-                .ui.label
+                %a.ui.label{href: edit_project_version_path(@project, version) }
                   =semantic_icon(:write)
-                  =link_to "Edit", edit_project_version_path(@project, version)
+                  Edit
             .content{ id: "content-#{version.id}", style: "display:none" }
               .ui.divider
               .ui.grid
@@ -87,6 +88,14 @@
 
     $('.on-hover').mouseleave(function(){
       $('#' + $(this).attr('tag')).hide();
+    });
+
+    $('#api-example').popup({
+      hoverable: true,
+      delay: {
+        show: 300,
+        hide: 800
+      }
     });
   }
 
