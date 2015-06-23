@@ -14,18 +14,18 @@
       =form_for([@project, version]) do |f|
         %tr{class: "on-hover", tag: "edit-tag-" + version.id.to_s}
           %td
-            .ui.grid{ onclick: "toggle('#{version.id}')"}
-              .four.wide.column
+            .ui.grid
+              .four.wide.column{ onclick: "toggle('#{version.id}')" }
                 %h2
                   =version.to_s
-              .six.wide.column
+              .six.wide.column{ onclick: "toggle('#{version.id}')" }
                 - if version.stable
                   .ui.label.blue
                     Stable
                 - if version.rec
                   .ui.label.green
                     Recommended
-              .three.wide.column
+              .three.wide.column{ onclick: "toggle('#{version.id}')" }
                 .ui.label.right
                   =version.downloads.count
                   Downloads
@@ -33,6 +33,9 @@
                 %a.ui.label{href: edit_project_version_path(@project, version) }
                   =semantic_icon(:write)
                   Edit
+                %a.ui.label{ href: project_version_path(@project, version), rel:"nofollow", "data-method" => "delete", "data-confirm" => "Are you sure you want to delete this? This cannot be undone."}
+                  =semantic_icon(:delete)
+                  Delete
             .content{ id: "content-#{version.id}", style: "display:none" }
               .ui.divider
               .ui.grid
@@ -66,7 +69,7 @@
                           %th IP Address
                           %th Date and Time
                       %tbody
-                        - version.downloads.each do |download|
+                        - version.downloads.limit(3).each do |download|
                           %tr
                             %td=download.ip
                             %td=download.created_at.localtime.strftime("%d/%m/%y %H:%M:%S")

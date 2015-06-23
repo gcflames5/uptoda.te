@@ -1,44 +1,48 @@
-.ui.very.relaxed.stackable.page.grid
-  .row
-    .column
-      %h1 About the uptoda.te API
-      %p
-        I would like to apologize in advance for this lengthy and complicated page. But given the large number of api calls and generally complex api schema, it is necessary.
-  .row
-    .column
-      %h2
-        Checking for new versions
-      %p
-        In order to see if a newer version is available, we have to specify
-        %b version criteria
-        and
-        %b a search type
-        \. The
-        %b version criteria
-        simply specify which what version(s) we want to look for. So a version criteria of 1.0.0 would only look for version 1.0.0. But that's a bit too specific and won't automatically adapt when we add new versions. To achieve this, you can use a wildcard symbol to tell the api that any number is acceptable in the slot it is put in. For example, if I want to search through all versions that start with 1.2, I can ask the api for 1.2.-1.
-      %p Let's assume we have a program that is current version 1.2.3. When you build your updater, you can check for major updates using -1.-1.-1, regular updates using 1.-1.-1 and minor updates using 1.2.-1. And if you want to get really funky, you could request something like 1.-1.3, but let's not get too crazy.
-      %p
-        There are 3 search types:
-        %b rec
-        (recommended),
-        %b stable
-        , and
-        %b abs
-        (absolute).
-        Recommended will only search for recommended builds, stable will only search for stable builds and
-      %p To get a helpful API link for your project, press "see all versions" and hover over the API button
-      %p A typical check for update call would look like this:
-      %pre{style:"font-weight:bold"}
-        \/projects/558816f46763663e31010000/check?major=-1&mid=-1&minor=-1&type=abs
-      %p and a typical response might look like
-      %pre{style:"font-weight:bold"}
-        {"project_name":"test","requested_version":[-1,-1,-1],"newest_version":[1,2,14],"request_type":"abs"}
+.main.container.segment
+  .ui.grid
+    .row
+      .column
+        %h1 About the uptoda.te API
 
-  .row
-    .column
-      %h2
-        Downloading Updates
-      %p Once you've identified the version you would like to download, send a similar request that looks like
-      %pre{style:"font-weight:bold"}
-        \/projects/558816f46763663e31010000/download?major=-1&mid=-1&minor=-1&type=abs
-      %p We recommend specifying a specific version to download so you know exactly what you are getting.
+    .row
+      .column
+        %h2
+          Checking for new versions
+        %p
+          In order to see if a newer version is available, we have to specify
+          %b version criteria
+          and
+          %b a search type
+          \. The
+          %b version criteria
+          simply specify which what version(s) we want to look for. So a version criteria of 1.0.0 would only look for version 1.0.0. But that's a bit too specific and won't automatically adapt when we add new versions. To achieve this, you can use a wildcard symbol to tell the api that any number is acceptable in the slot it is put in. For example, if I want to search through all versions that start with 1.2, I can ask the api for 1.2.-1.
+        %p Let's assume we have a program that is current version 1.2.3. When you build your updater, you can check for all updates using -1.-1.-1, regular and minor updates using 1.-1.-1 and minor updates using 1.2.-1. And if you want to get really funky, you could request something like 1.-1.3, but let's not get too crazy.
+        %p
+          There are 3 search types:
+          %b rec
+          (recommended),
+          %b stable
+          , and
+          %b abs
+          (absolute).
+          Recommended will only search for recommended builds, stable will only search for stable builds and
+        %p To get a helpful API link for your project, press "see all versions" and hover over the API button
+        %p A typical check for update call would look like this:
+        %pre.ui.existing.secondary.segment
+          \/projects/558816f46763663e31010000/check?major=-1&mid=-1&minor=-1&type=abs
+        %p and a typical response might look like
+        %pre.ui.existing.secondary.segment
+          {"project_name":"test","requested_version":[-1,-1,-1],"newest_version":[1,2,14],"request_type":"abs"}
+
+    .row
+      .column
+        %h2
+          Downloading Updates
+        %p Once you've identified the version you would like to download, send a similar request that looks like
+        %pre.ui.existing.secondary.segment
+          \/projects/558816f46763663e31010000/download?major=-1&mid=-1&minor=-1&type=abs
+        %p We recommend specifying a specific version to download so you know exactly what you are getting.
+
+    .row
+      .column
+        %p That's it! See, told you that was easy.

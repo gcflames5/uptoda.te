@@ -1,9 +1,9 @@
 .row
   .ui.menu.navbar.inverted
-    %a.brand.item{:href => "/"} Uptoda.te
+    %a.brand.item{:href => root_path } Uptoda.te
     %a.item{:href => api_path} API
-    %a.item{:href => ""} About
-    %a.item{:href => ""} Contact us
+    %a.item{:href => root_path } About
+    %a.item{:href => root_path } Contact us
     .right.menu
       - unless current_user.nil?
         %a.item{:href => projects_path} My Projects
