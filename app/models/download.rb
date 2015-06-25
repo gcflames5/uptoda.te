@@ -6,5 +6,6 @@ class Download
 
   field :ip, type: String
   field :key, type: String
+  field :useragent, type: String 
 
 end

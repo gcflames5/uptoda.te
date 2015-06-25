@@ -19,17 +19,10 @@
       Notice
     %p
       =flash[:warning]
-
-:javascript
-  function ready(){
-    $('.message .close').on('click', function() {
-      $(this).closest('.message').fadeOut();
-    });
-
-    setTimeout(function(){
-      alert("asd");
-    }), 10000);
-  }
-
-  $(document).ready(ready);
-  $(document).on('page:load', ready);
+- if flash[:alert]
+  .sixteen.wide.column.ui.negative.message
+    %i.close.icon
+    .header
+      Notice
+    %p
+      =flash[:alert]

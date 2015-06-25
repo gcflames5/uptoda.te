@@ -104,7 +104,7 @@ class ProjectsController < ApplicationController
         :filename      =>  @project.name.gsub(" ", "").gsub("/[^0-9A-Za-z.\-]/", "").to_s + "_" + version.major.to_s + "." + version.mid.to_s + "." + version.minor.to_s,
         :disposition  =>  'attachment'
         )
-      version.downloads << Download.create(ip: request.remote_ip)
+      version.downloads << Download.create(ip: request.remote_ip, useragent: request.env['HTTP_USER_AGENT'])
     end
   end
 

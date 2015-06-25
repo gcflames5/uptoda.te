@@ -15,3 +15,16 @@
 //= require semantic-ui
 //= require turbolinks
 //= require_tree .
+
+function ready(){
+  $('.message .close').on('click', function() {
+    $(this).closest('.message').fadeOut();
+  });
+
+  setTimeout(function(){
+    $(this).closest('.message').fadeOut();
+  }, 7000);
+}
+
+$(document).ready(ready);
+$(document).on('page:load', ready);

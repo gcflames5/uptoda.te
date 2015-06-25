@@ -56,4 +56,12 @@ class Version
 
   include Comparable
 
+  before_destroy :clean_up
+
+  private
+    def clean_up
+      file.destroy
+      downloads.destroy
+    end
+
 end
