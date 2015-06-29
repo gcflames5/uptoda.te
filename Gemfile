@@ -19,9 +19,11 @@ gem 'devise'
 # use haml for html generation
 gem 'haml'
 # use mongoid paperclip for attachment management
-gem "mongoid-paperclip", :require => "mongoid_paperclip"
+# gem "mongoid-paperclip", :require => "mongoid_paperclip"
 # use semantic for styling
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
+# use mega for file storage
+gem 'rmega'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

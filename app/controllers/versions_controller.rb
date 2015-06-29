@@ -2,6 +2,8 @@ class VersionsController < ApplicationController
   before_action :set_project
   before_action :set_version, only: [:show, :edit, :update, :destroy]
 
+  include Uploader
+
   # GET /versions
   # GET /versions.json
   def index
@@ -27,6 +29,9 @@ class VersionsController < ApplicationController
   def create
     @version = @project.versions.build(version_params)
 
+    connect_to_mega
+    upload_file(@version, params[:version][:file])
+
     respond_to do |format|
       if @version.save
         format.html { redirect_to project_versions_path(@project), notice: 'Version was successfully created.' }
@@ -41,6 +46,9 @@ class VersionsController < ApplicationController
   # PATCH/PUT /versions/1
   # PATCH/PUT /versions/1.json
   def update
+    file = params[:version][:file]
+    connect_to_mega
+    upload_file(@version, file)
     respond_to do |format|
       if @version.update(version_params)
         format.html { redirect_to project_versions_path(@project), notice: 'Version was successfully updated.' }
@@ -72,6 +80,6 @@ class VersionsController < ApplicationController
     end
 
     def version_params
-      params.require(:version).permit(:major, :mid, :minor, :stable, :rec, :file)
+      params.require(:version).permit(:major, :mid, :minor, :stable, :rec)
     end
 end
