@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy, :check, :download]
 
-  include Uploader
+  include DropboxUploader
 
   # GET /projects
   # GET /projects.json
@@ -102,20 +102,23 @@ class ProjectsController < ApplicationController
         request_type: params[:type].to_sym
         }, status: :ok
     else
-      connect_to_mega 
+      #connect_to_mega
 
-      file = get_file(version)
-      File.open(file, 'r') do |f|
-        send_data f.read.force_encoding('BINARY'), :filename => @project.name.gsub(" ", "").gsub("/[^0-9A-Za-z.\-]/", "").to_s + "_" + version.major.to_s + "." + version.mid.to_s + "." + version.minor.to_s,
-         :type => "application/zip", :disposition => "attachment"
-      end
-      File.delete(file)
+      #file = get_file(version)
+      #File.open(file, 'r') do |f|
+      #  send_data f.read.force_encoding('BINARY'), :filename => @project.name.gsub(" ", "").gsub("/[^0-9A-Za-z.\-]/", "").to_s + "_" + version.major.to_s + "." + version.mid.to_s + "." + version.minor.to_s,
+      #   :type => "application/zip", :disposition => "attachment"
+      #end
+      #File.delete(file)
 
       #send_data(,
       #  :filename      =>  @project.name.gsub(" ", "").gsub("/[^0-9A-Za-z.\-]/", "").to_s + "_" + version.major.to_s + "." + version.mid.to_s + "." + version.minor.to_s,
       #  :disposition  =>  'attachment'
       #  )
       version.downloads << Download.create(ip: request.remote_ip, useragent: request.env['HTTP_USER_AGENT'])
+      connect_to_dropbox
+      redirect_to get_download_url(version)
+
     end
   end
 
