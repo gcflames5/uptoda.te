@@ -102,7 +102,7 @@ class ProjectsController < ApplicationController
         request_type: params[:type].to_sym
         }, status: :ok
     else
-      connect_to_mega
+      connect_to_mega 
 
       file = get_file(version)
       File.open(file, 'r') do |f|
