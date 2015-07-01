@@ -17,7 +17,4 @@ module DropboxUploader
   def get_download_url(version)
     @@client.find("#{version.project.id.to_s}/#{version.to_s}.zip").direct_url.url
   end
-
-
-
 end

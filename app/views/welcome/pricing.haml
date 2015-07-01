@@ -1,0 +1,71 @@
+%h1 Our Pricing Plans
+.wrapper{style: "margin-top: 30px;"}
+  .package{planId: 0}
+    .name Basic
+    .price $0
+    .trial Totally Free
+    %hr
+      %ul
+        %li
+          %strong 10
+          projects
+        %li
+          %strong 350
+          downloads/month
+        %li
+          %strong 2 GB
+          of total storage
+  .package{planId: 1}
+    .name Hobby
+    .price $10
+    .trial For those who like to devleop
+    %hr
+      %ul
+        %li
+          %strong Unlimited
+          projects
+        %li
+          %strong 5000
+          downloads/month
+        %li
+          %strong 10 GB
+          of total storage
+        %li
+          Project analytics
+        %li
+          Project security
+        %li
+          Download caching (for lightning fast downloads)
+  .package{planId: 2}
+    .name Enterprise
+    .price $25
+    .trial For the big shots
+    %hr
+      %ul
+        %li
+          %strong Unlimited
+          projects
+        %li
+          %strong Unlimited
+          downloads/month
+        %li
+          %strong 100 GB
+          of total storage
+        %li
+          Project analytics
+        %li
+          Project security
+        %li
+          User Management
+        %li
+          Download caching (for lightning fast downloads)
+:javascript
+  var selectedPlan = -1; //0-basic, 1-hobby, 2-enterprise
+
+  $(".package").click(function(){
+    if ($(this).attr("planId") == selectedPlan)
+      return;
+    selectedPlan = $(this).attr("planId");
+    $(".package").removeClass("brilliant");
+    $(this).addClass("brilliant");
+  });

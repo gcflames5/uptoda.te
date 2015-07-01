@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'about/api' => 'welcome#api', as: :api
   get 'about' => 'welcome#about', as: :about
   get 'about/us' => 'welcome#contact', as: :contact
+  get 'pricing' => 'welcome#pricing', as: :pricing
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

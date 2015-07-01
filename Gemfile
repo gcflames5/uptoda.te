@@ -27,6 +27,9 @@ gem 'dropbox-api'
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 # use mega for file storage
 # gem 'rmega'
+#use font-awesome for icons
+gem "font-awesome-rails"
+
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

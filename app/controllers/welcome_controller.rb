@@ -10,4 +10,7 @@ class WelcomeController < ApplicationController
 
   def contact
   end
+
+  def pricing
+  end
 end
